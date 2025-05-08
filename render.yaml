@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: blogproject
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn blogproject.wsgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: blogproject.settings
+      - key: PYTHON_VERSION
+        value: 3.12
+      - key: DEBUG
+        value: False
+      - key: SECRET_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
