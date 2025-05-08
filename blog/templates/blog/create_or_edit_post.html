@@ -1,0 +1,96 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}
+  {% if is_edit %}
+    Edit Post
+  {% else %}
+    Create Post
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="form-container">
+    <h1>
+      {% if is_edit %} ✏️ Edit Your Post {% else %} 📝 Create a New Post {% endif %}
+    </h1>
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="id_title">Title</label>
+        {{ form.title }}
+      </div>
+
+      <div class="form-group">
+        <label for="id_content">Content</label>
+        {{ form.content }}
+      </div>
+
+      <div class="form-group">
+        <label for="id_image">Image (Max 2MB, only .jpg, .jpeg, .png)</label>
+        <input 
+          type="file" 
+          id="id_image" 
+          name="image" 
+          accept="image/*"  <!-- Restricts file to images -->
+          onchange="validateFile()" 
+        />
+      </div>
+
+      <div class="form-group">
+        <img id="image-preview" src="#" alt="Image Preview" style="display: none; max-width: 100%; margin-top: 10px; border-radius: 8px;" />
+      </div>
+
+      <button type="submit">
+        {% if is_edit %} Update Post {% else %} Create Post {% endif %}
+      </button>
+    </form>
+  </div>
+
+  <script>
+    // Function to preview the image before uploading
+    document.getElementById('id_image').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      const preview = document.getElementById('image-preview');
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.src = e.target.result;
+          preview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      } else {
+        preview.style.display = 'none';
+      }
+    });
+
+    // Validate file type and size
+    function validateFile() {
+      const fileInput = document.getElementById('id_image');
+      const file = fileInput.files[0];
+      const fileSize = file.size; // In bytes
+      const fileType = file.type;
+
+      // Check if file is an image
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+      if (!allowedTypes.includes(fileType)) {
+        alert('Please upload a valid image file (.jpg, .jpeg, .png).');
+        fileInput.value = '';  // Clear the input
+        document.getElementById('image-preview').style.display = 'none'; // Hide preview
+        return false;
+      }
+
+      // Check file size (limit to 2MB)
+      const maxSize = 2 * 1024 * 1024; // 2MB
+      if (fileSize > maxSize) {
+        alert('File size should be less than 2MB.');
+        fileInput.value = '';  // Clear the input
+        document.getElementById('image-preview').style.display = 'none'; // Hide preview
+        return false;
+      }
+      
+      return true;
+    }
+  </script>
+{% endblock %}

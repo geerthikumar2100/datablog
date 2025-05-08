@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}My Blog{% endblock %}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #e0f7fa;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1 {
+            margin-bottom: 2rem;
+        }
+
+        .post {
+            background: #ffffff;
+            border: 1px solid #b2ebf2;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn {
+            padding: 0.4rem 0.8rem;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            margin-right: 8px;
+        }
+
+        .btn.edit {
+            background: #90caf9;
+            color: #003c8f;
+        }
+
+        .btn.delete {
+            background: #f48fb1;
+            color: #880e4f;
+        }
+
+        .pagination {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .pagination a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #0288d1;
+            font-weight: bold;
+        }
+
+        .admin-links {
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    {% block content %}{% endblock %}
+</body>
+</html>

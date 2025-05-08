@@ -1,8 +1,32 @@
-<!-- blog/templates/blog/post_form.html -->
-<h2>{% if is_edit %}Edit{% else %}Create{% endif %} Post</h2>
-<form method="post" enctype="multipart/form-data">
+{% extends 'blog/base.html' %}
+
+{% block title %}
+  {% if is_edit %}
+    Edit Post
+  {% else %}
+    Create New Post
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="form-container" style="max-width: 600px; margin: auto; background: #f0f8ff; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+  <h2 style="text-align: center; color: #2c3e50;">
+    {% if is_edit %}
+      ✏️ Edit Post
+    {% else %}
+      📝 Create a New Post
+    {% endif %}
+  </h2>
+
+  <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Save</button>
-</form>
 
+    <div style="text-align: center;">
+      <button type="submit" style="padding: 10px 20px; background-color: #2c98f0; color: white; border: none; border-radius: 5px; font-weight: bold;">
+        {% if is_edit %} Update {% else %} Publish {% endif %}
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}
